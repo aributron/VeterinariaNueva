@@ -35,10 +35,9 @@
                     <option value="2">Hamster</option>
                 </select>
 
-
             </div>
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" onclick ="avisarHorario()" class="btn btn-primary" />
             </div>
 
         </form>
@@ -51,8 +50,15 @@
 
 <div>
     <a asp-action="Index">Back to List</a>
+    <a asp-controller= "Clientes" asp-action="HistorialCliente">Ver mi historial</a>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<script> 
+    function avisarHorario() {
+        alert('AVISO: Los minutos no serán tomados en cuenta.');
+    }
+    </script>

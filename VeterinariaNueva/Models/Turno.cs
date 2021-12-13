@@ -10,6 +10,8 @@ namespace VeterinariaNueva.Models
     [Table ("Turnos")]
     public class Turno
     {
+        public const int HORARIO_APERTURA = 10;
+        public const int HORARIO_CIERRE = 19;
         [Key]
         [Display(Name = "Id del turno")]
         public int Id_Turno { get; set; }

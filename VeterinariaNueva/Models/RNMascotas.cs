@@ -40,8 +40,7 @@ namespace VeterinariaNueva.Models
         }
 
         public static Mascota ObtenerMascota (VeterinariaDbContext _context, string nombre)
-        {
-            
+        {         
             List<Mascota> mascotas = _context.Mascotas.ToList();
             var mascota = mascotas.FirstOrDefault(e => e.Nombre == nombre);
 
@@ -50,7 +49,6 @@ namespace VeterinariaNueva.Models
 
         public static Mascota ObtenerMascota(VeterinariaDbContext _context, int idCliente, string nombre)
         {
-
             List<Mascota> mascotas = _context.Mascotas.Where(o => o.Nombre == nombre).ToList();
             var mascota = mascotas.FirstOrDefault(e => e.Id_Cliente == idCliente);
 

@@ -7,9 +7,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaNueva.BaseDatos;
 using VeterinariaNueva.Models;
+using VeterinariaNueva.Helper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VeterinariaNueva.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class ClientesController : Controller
     {
         private readonly VeterinariaDbContext _context;
@@ -43,6 +46,7 @@ namespace VeterinariaNueva.Controllers
             return View(cliente);
         }
 
+       
         // GET: Clientes/Create
         public IActionResult Create()
         {
@@ -54,6 +58,7 @@ namespace VeterinariaNueva.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> Create(Cliente cliente)
         {
             if (ModelState.IsValid)
@@ -151,8 +156,47 @@ namespace VeterinariaNueva.Controllers
             return _context.Clientes.Any(e => e.Id == id);
         }
 
-        
-        
-       
+        public ActionResult HistorialCliente ()
+        {
+            Cliente cliente = RNUsuarios.ObtenerCliente(_context, SessionHelper.GetName(User));
+            if (cliente == null)
+            {
+                return RedirectToAction(nameof(Create), "Turnos");
+            }
+            int id = cliente.Id;
+            var lista = new ViewModel.VMHistorialList();
+            List<Turno> turnos = _context.Turnos.Where(o => o.Id_Cliente == id).ToList();
+            lista.Historial = new List<ViewModel.VMHistorial>();
+            
+            ViewBag.Cliente = cliente.Email;
+
+            foreach (var turno in turnos)
+            {
+                ViewModel.VMHistorial modelo = new ViewModel.VMHistorial();
+
+                var mascota = RNMascotas.ObtenerMascota(_context, turno.Nombre_Mascota);
+
+                modelo.Cliente = cliente;
+                modelo.Mascota = mascota;
+                modelo.Turno = turno.Fecha_Hora;
+
+                lista.Historial.Add(modelo);
+            }
+
+            return View(lista);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult HistorialCliente(ViewModel.VMHistorialList lista)
+        {
+
+            return RedirectToAction(nameof(HistorialCliente));
+        }
+
+
+
+
     }
 }

@@ -2,16 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VeterinariaNueva.BaseDatos;
 using VeterinariaNueva.Helper;
 using VeterinariaNueva.Models;
-//using static VeterinariaNueva.Models.Mascota;
 
 namespace VeterinariaNueva.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     public class TurnosController : Controller
     {
         private readonly VeterinariaDbContext _context;
@@ -46,6 +47,8 @@ namespace VeterinariaNueva.Controllers
         }
 
         // GET: Turnos/Create
+        [Authorize]
+        [AllowAnonymous]
         public IActionResult Create()
         {
             return View();
@@ -56,6 +59,9 @@ namespace VeterinariaNueva.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+
+        [Authorize]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(Turno turno, int tipo)
         {
             Cliente cliente = RNUsuarios.ObtenerCliente(_context, SessionHelper.GetName(User));
@@ -63,24 +69,33 @@ namespace VeterinariaNueva.Controllers
             TimeSpan ts = new TimeSpan(turno.Fecha_Hora.Hour, 0, 0);
             turno.Fecha_Hora = turno.Fecha_Hora.Date + ts;          
             turno.Id_Cliente = cliente.Id;
-
-            RNMascotas.AgregarMascota(_context, cliente, turno.Nombre_Mascota, tipo);
-            //Si ya existe la mascota para ese cliente, simplemente crea el turno y no la mascota
-
-            if (ModelState.IsValid)
+            if (this.ValidarHorario(turno.Fecha_Hora.Hour))
             {
-                if (this.ValidarFecha(turno))
+                RNMascotas.AgregarMascota(_context, cliente, turno.Nombre_Mascota, tipo);
+                //Si ya existe la mascota para ese cliente, simplemente crea el turno y no la mascota
+
+                if (ModelState.IsValid)
                 {
-                _context.Add(turno);
-                await _context.SaveChangesAsync();               
-                return RedirectToAction(nameof(Index), "Clientes");
+                    if (this.ValidarFecha(turno))
+                    {
+                    _context.Add(turno);
+                    await _context.SaveChangesAsync();               
+                    return RedirectToAction(nameof(Index), "Home");
+                    }
+                    else
+                    {
+                        ViewBag.Error = "¡Esa hora ya está reservada!";
+                        return View(turno);
+                    }
                 }
-                else
-                {
-                    ViewBag.Error = "¡Esa hora ya está reservada!";
-                    return View(turno);
-                }
-            }              
+
+            }
+            else
+            {
+                ViewBag.Error = string.Format("¡Horario inválido! Nuestro horario es de {0} a {1}.", Turno.HORARIO_APERTURA, Turno.HORARIO_CIERRE);
+                return View(turno);
+            }             
+                
             return View(turno);
         }
 
@@ -178,6 +193,17 @@ namespace VeterinariaNueva.Controllers
             return noExistia;
         }
 
+        private bool ValidarHorario(int hora)
+        {
+            bool esValido = false;
+
+            if (hora >= Turno.HORARIO_APERTURA && hora <= Turno.HORARIO_CIERRE)
+                esValido = true;
+
+            return esValido;
+
+        }
+
         public ActionResult HistorialClientes(int id)
         {  
             var lista = new ViewModel.VMHistorialList();                    
@@ -242,6 +268,9 @@ namespace VeterinariaNueva.Controllers
             return RedirectToAction(nameof(HistorialMascotas));
         }
 
+
+
     }
 
 }
+
