@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - VeterinariaNueva</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="branding">
+                <H1>
+                    Veterinaria<span class="highlight"> ORT</span>
+                </H1>
+            </div>
+            <nav>
+                <ul>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Turnos" asp-action="Create">Turnos</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Acerca">Acerca de nosotros</a>
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Precios">Precios</a>
+                    <li>
+                    <li>
+                        <a asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                    <li>
+
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <section id="newsletter">
+        <div class="container">
+            <h1>Suscribite para enterarte de todo lo nuevo!</h1>
+            <form>
+                <input type="email" placeholder="Ingrese su correo...">
+                <a class="my-5 btn btn-outline-primary btn-lg" asp-area="" asp-controller="Home" asp-action="Suscripcion">Suscribirse</a>
+            </form>
+        </div>
+    </section>
+    <footer>
+        <a class="my-5 btn btn-outline-dark btn-lg" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+        <p>Veterinaria ORT web design &Copy; 2021 </p>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
