@@ -15,9 +15,72 @@
 
     <title>Bootstrap 5.0 Pricing Table</title>
 
-
-
 </head>
+<style>
+
+        .header {
+            background: #00C9FF;
+        }
+
+        .bi {
+            color: #00C9FF;
+        }
+
+        .price {
+            color: white;
+            font-size: 100px;
+            font-weight: 800;
+            padding-top: -80% !important;
+        }
+
+        /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+        .flip-card {
+            background-color: transparent;
+            width: auto;
+            height: auto;
+            perspective: 1000px; /* Remove this if you don't want the 3D effect */
+        }
+
+        /* This container is needed to position the front and back side */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        /* Do an horizontal flip when you move the mouse over the flip box container */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Position the front and back side */
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+        }
+
+        /* Style the front side (fallback if image is missing) */
+        .flip-card-front {
+            background-color: #8D3B72;
+            color: white;
+            height: auto;
+            padding: 50px 0px;
+        }
+
+        /* Style the back side */
+        .flip-card-back {
+            background-color: white;
+            color: black;
+            transform: rotateY(180deg);
+            padding: 50px 0px;
+        }
+    </style>
 <body>
 
 
@@ -28,7 +91,7 @@
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
 
-                            <h1>$200</h1>
+                            <h1>$500</h1>
                             <br>
                             <h2 class="card-title">Perros</h2>
                             <small></small>
@@ -56,7 +119,7 @@
                                     </svg> Corte de uñas
                                 </li>
                             </ul>
-                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Mascotas" asp-action="Create"> Sacar Turno </a>
+                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Turnos" asp-action="Create"> Sacar Turno </a>
                         </div>
                     </div>
                 </div>
@@ -67,7 +130,7 @@
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
 
-                            <h1>$150</h1>
+                            <h1>$400</h1>
                             <br>
                             <h2 class="card-title">Gatos</h2>
                             <small></small>
@@ -95,7 +158,7 @@
                                     </svg> Corte de uñas
                                 </li>
                             </ul>
-                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Mascotas" asp-action="Create"> Sacar Turno </a>
+                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Turnos" asp-action="Create"> Sacar Turno </a>
                         </div>
                     </div>
                 </div>
@@ -107,7 +170,7 @@
                     <div class="flip-card-inner">
                         <div class="flip-card-front">
 
-                            <h1>$100</h1>
+                            <h1>$300</h1>
                             <br>
                             <h2 class="card-title">Hamster</h2>
                             <small></small>
@@ -125,7 +188,7 @@
                                     </svg> Secado
                                 </li>
                             </ul>
-                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Mascotas" asp-action="Create"> Sacar Turno </a>
+                            <a class="my-5 btn btn-outline-success btn-lg" asp-area="" asp-controller="Turnos" asp-action="Create"> Sacar Turno </a>
                         </div>
                     </div>
                 </div>
@@ -141,14 +204,78 @@
 
 </body>
 
-
-
-
-
+</html>
 <!-- Option 1: Bootstrap Bundle with Popper -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
 
 
+<style>
 
-</html>
+        .header {
+            background: #00C9FF;
+        }
+
+        .bi {
+            color: #00C9FF;
+        }
+
+        .price {
+            color: white;
+            font-size: 100px;
+            font-weight: 800;
+            padding-top: -80% !important;
+        }
+
+        /* The flip card container - set the width and height to whatever you want. We have added the border property to demonstrate that the flip itself goes out of the box on hover (remove perspective if you don't want the 3D effect */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;  /* Remove this if you don't want the 3D effect */
+        }
+
+        /* This container is needed to position the front and back side */
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        /* Do an horizontal flip when you move the mouse over the flip box container */
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+
+        /* Position the front and back side */
+        .flip-card-front, .flip-card-back {
+            position: sticky;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden; /* Safari */
+            backface-visibility: hidden;
+        }
+
+        /* Style the front side (fallback if image is missing) */
+        .flip-card-front {
+            background-color: #8D3B72;
+            color: white;
+            height: auto;
+            padding: 50px 0px;
+        }
+
+        /* Style the back side */
+        .flip-card-back {
+            background-color: white;
+            color: black;
+            transform: rotateY(180deg);
+            padding: 0px 0px;
+        }
+    </style>
+
+
+
+
 

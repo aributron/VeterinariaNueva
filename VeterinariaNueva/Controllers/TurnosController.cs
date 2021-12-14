@@ -80,7 +80,7 @@ namespace VeterinariaNueva.Controllers
                     {
                     _context.Add(turno);
                     await _context.SaveChangesAsync();               
-                    return RedirectToAction(nameof(Index), "Home");
+                    return RedirectToAction(nameof(TurnoExitoso));
                     }
                     else
                     {
@@ -267,8 +267,12 @@ namespace VeterinariaNueva.Controllers
 
             return RedirectToAction(nameof(HistorialMascotas));
         }
-
-
+        [Authorize]
+        [AllowAnonymous]
+        public IActionResult TurnoExitoso ()
+        {
+            return View();
+        }
 
     }
 
