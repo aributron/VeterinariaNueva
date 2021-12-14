@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
+@using VeterinariaNueva.Helper
+
 <body>
     <header>
         <div class="container">
             <div id="branding">
-                <H1>
+                <h1>
                     Veterinaria<span class="highlight"> ORT</span>
-                </H1>
+                </h1>
             </div>
             <nav>
                 <ul>
@@ -31,7 +33,14 @@
                         <a asp-area="" asp-controller="Home" asp-action="Precios">Precios</a>
                     <li>
                     <li>
-                        <a asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+                        @if (SessionHelper.GetName(User).Equals(""))
+                        {
+                             <a asp-area="" asp-controller="Login" asp-action="Login">Login</a>
+
+                        } else
+                        {
+                             <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                        }
                     <li>
 
                 </ul>
@@ -54,7 +63,6 @@
         </div>
     </section>
     <footer>
-        <a class="my-5 btn btn-outline-dark btn-lg" asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
         <p>Veterinaria ORT web design &Copy; 2021 </p>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

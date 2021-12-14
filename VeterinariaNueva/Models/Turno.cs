@@ -21,7 +21,7 @@ namespace VeterinariaNueva.Models
         [ForeignKey(nameof(Cliente))]
         [Display(Name = "Id del cliente")]
         public int Id_Cliente { get; set; }
-        [Display(Name = "Mascota")]
+        [Display(Name = "Nombre de su mascota")]
         public string Nombre_Mascota { get; set; }
         
 

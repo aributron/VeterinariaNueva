@@ -155,13 +155,14 @@ namespace VeterinariaNueva.Controllers
         {
             return _context.Clientes.Any(e => e.Id == id);
         }
-
+        [Authorize]
+        [AllowAnonymous]
         public ActionResult HistorialCliente ()
         {
             Cliente cliente = RNUsuarios.ObtenerCliente(_context, SessionHelper.GetName(User));
             if (cliente == null)
             {
-                return RedirectToAction(nameof(Create), "Turnos");
+                return RedirectToAction(nameof(LoginController.Login), "Login");
             }
             int id = cliente.Id;
             var lista = new ViewModel.VMHistorialList();
@@ -186,7 +187,8 @@ namespace VeterinariaNueva.Controllers
             return View(lista);
 
         }
-
+        [Authorize]
+        [AllowAnonymous]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult HistorialCliente(ViewModel.VMHistorialList lista)

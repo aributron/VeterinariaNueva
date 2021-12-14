@@ -38,5 +38,9 @@ namespace VeterinariaNueva.Controllers
         {
             return View();
         }
+        public IActionResult Acerca()
+        {
+            return View();
+        }
     }
 }
