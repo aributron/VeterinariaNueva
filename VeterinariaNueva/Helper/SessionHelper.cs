@@ -26,5 +26,10 @@ namespace VeterinariaNueva.Helper
             var r = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Name);
             return r == null ? "" : r.Value;
         }
+        public static string GetRole(IPrincipal User)
+        {
+            var r = ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.Role);
+            return r == null ? "" : r.Value;
+        }
     }
 }

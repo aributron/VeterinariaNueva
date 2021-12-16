@@ -28,6 +28,11 @@ namespace VeterinariaNueva.Models
             } // else, ya existe esa mascota para ese cliente
         }
 
+        public static void BorrarMascota(VeterinariaDbContext _context, Mascota mascota)
+        {
+            _context.Mascotas.Remove(mascota);
+        }
+
         private static bool ValidarMascota (VeterinariaDbContext _context, Cliente cliente, string nombre)
         {
             bool agregar = false;

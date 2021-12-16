@@ -27,22 +27,36 @@
                         <a asp-area="" asp-controller="Turnos" asp-action="Create">Turnos</a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Home" asp-action="Acerca">Acerca de nosotros</a>
+                        @if (SessionHelper.GetRole(User).Equals("Administrador"))
+                        {
+                        <a asp-area="" asp-controller="Clientes" asp-action="Create">Clientes</a>
+                        }
+                    </li>
+                    <li>
+                        <a asp-area="" asp-controller="Home" asp-action="Acerca">Acerca de</a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Home" asp-action="Precios">Precios</a>
-                    <li>
+                    </li>
                     <li>
                         @if (SessionHelper.GetName(User).Equals(""))
                         {
-                             <a asp-area="" asp-controller="Login" asp-action="Login">Login</a>
-
-                        } else
-                        {
-                             <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                            <a asp-area="" asp-controller="Login" asp-action="Login">Login</a>
                         }
-                    <li>
 
+                        else
+                        {
+                            <a asp-area="" asp-controller="Login" asp-action="Logout">Logout</a>
+                        }
+                    </li>
+                    <li>
+                        @if (!SessionHelper.GetName(User).Equals(""))
+                         {
+                            <p> ¡Bienvenido/a @SessionHelper.GetName(User)! </p>
+                         }
+
+                    </li>
+                        
                 </ul>
             </nav>
         </div>
@@ -70,3 +84,5 @@
     @RenderSection("Scripts", required: false)
 </body>
 </html>
+
+

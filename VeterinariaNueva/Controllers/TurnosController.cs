@@ -66,6 +66,11 @@ namespace VeterinariaNueva.Controllers
         {
             Cliente cliente = RNUsuarios.ObtenerCliente(_context, SessionHelper.GetName(User));
            
+            if (cliente == null)
+            {
+                ViewBag.Error = "¡Necesitas estar logueado para sacar un turno!";
+                return View(turno);
+            }
             TimeSpan ts = new TimeSpan(turno.Fecha_Hora.Hour, 0, 0);
             turno.Fecha_Hora = turno.Fecha_Hora.Date + ts;          
             turno.Id_Cliente = cliente.Id;
@@ -218,11 +223,15 @@ namespace VeterinariaNueva.Controllers
 
                 var mascota = RNMascotas.ObtenerMascota(_context, turno.Nombre_Mascota);
 
-                modelo.Cliente = cliente;
-                modelo.Mascota = mascota;
-                modelo.Turno = turno.Fecha_Hora;
-              
-                lista.Historial.Add(modelo);
+                if (mascota != null)
+                {
+                    modelo.Cliente = cliente;
+                    modelo.Mascota = mascota;
+                    modelo.Turno = turno.Fecha_Hora;
+
+                    lista.Historial.Add(modelo);
+                }
+             
             }
 
              return View(lista);
@@ -244,8 +253,12 @@ namespace VeterinariaNueva.Controllers
             lista.Historial = new List<ViewModel.VMHistorial>();
             var mascota = RNMascotas.ObtenerMascota(_context, turnos.ElementAt(0).Id_Cliente, nombreMascota);
             var cliente = RNUsuarios.ObtenerCliente(_context, turnos.ElementAt(0).Id_Cliente);
-            ViewBag.Mascota = mascota.Nombre;
 
+            if (mascota == null || cliente == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Mascota = mascota.Nombre;
             foreach (var turno in turnos)
             {
                 ViewModel.VMHistorial modelo = new ViewModel.VMHistorial();
@@ -267,6 +280,7 @@ namespace VeterinariaNueva.Controllers
 
             return RedirectToAction(nameof(HistorialMascotas));
         }
+
         [Authorize]
         [AllowAnonymous]
         public IActionResult TurnoExitoso ()

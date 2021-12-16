@@ -3,11 +3,8 @@
     @{
         ViewData["Title"] = "Clientes";
     }
-    <p>
-        <a asp-action="HistorialClientes">Create New</a>
-    </p>
-
-Historial de turnos del cliente: @ViewBag.Cliente
+    
+<h4>Historial de turnos del cliente: @ViewBag.Cliente</h4>
     
     <table class="table table-primary table-dark">
         <thead>
@@ -27,19 +24,31 @@ Historial de turnos del cliente: @ViewBag.Cliente
         <tbody>
             @foreach (var item in Model.Historial)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Turno)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Cliente.Email)
-                    </td>
-                    <td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Turno)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cliente.Email)
+                </td>
+                <td>
+                    <a asp-action="HistorialMascotas" asp-route-id="@item.Cliente.Id" asp-route-nombreMascota="@item.Mascota.Nombre">
                         @Html.DisplayFor(modelItem => item.Mascota.Nombre)
-                    </td>
+                    </a>
+                </td>
+                <td>
+                    <a asp-controller="Clientes" asp-action="DeleteMascota" asp-route-id="@item.Mascota.Id_Mascota">
+                        ¿Desea borrar la mascota?
+                    </a>
+                </td>
 
-                </tr>
+            </tr>
             }
         </tbody>
     </table>
 
+    <style>
+        tbody {
+            background: #000000;
+        }
+    </style>

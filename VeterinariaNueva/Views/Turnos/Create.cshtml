@@ -14,7 +14,7 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Fecha_Hora" class="control-label"></label>
-                <input asp-for="Fecha_Hora" class="form-control" />
+                <input asp-for="Fecha_Hora" class="form-control"/>
                 <span asp-validation-for="Fecha_Hora" class="text-danger"></span>
             </div>
 
@@ -36,32 +36,26 @@
 
             </div>
             <div class="form-group">
-                <input type="submit" value="Pedir turno" onclick ="avisarHorario()" class="btn btn-primary" />
+                <input type="submit" value="Pedir turno" class="btn btn-primary" />
             </div>
 
         </form>
     </div>
-    <ul>
-    <li>@SessionHelper.GetNameIdentifier(User)</li>
-    <li>@SessionHelper.GetName(User)</li>
-        </ul>
+    
 </div>
 
 <div>
     <a asp-action="Index">Ver lista de turnos</a>
     <br />
-    <a asp-controller= "Clientes" asp-action="HistorialCliente">Ver mi historial</a>
+    @if (SessionHelper.GetRole(User).Equals("Cliente")) 
+    {
+        <a asp-controller= "Clientes" asp-action="HistorialCliente">Ver mi historial</a>
+    }
+
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
 
-<script> 
-    function avisarHorario() {
-        
-        alert('AVISO: Los minutos no serán tomados en cuenta.');
-        
 
-    }
-    </script>

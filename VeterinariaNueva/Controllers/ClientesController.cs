@@ -63,10 +63,17 @@ namespace VeterinariaNueva.Controllers
         {
             if (ModelState.IsValid)
             {
-                
+
+                if (!this.ValidarCliente(cliente))
+                {
                 _context.Add(cliente);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
+                } else
+                {
+                    ViewBag.Error = "Error: Cliente existente";
+                }
+
             }
             return View(cliente);
         }
@@ -130,12 +137,21 @@ namespace VeterinariaNueva.Controllers
                 return NotFound();
             }
 
+
             var cliente = await _context.Clientes
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (cliente == null)
             {
                 return NotFound();
             }
+
+            var mascotas = _context.Mascotas.Where(e => e.Id_Cliente == id).ToList();
+            if (mascotas.Count > 0)
+            {
+                ViewBag.Mascota = "Borrar mascotas";
+                return View(cliente);
+            }
+
 
             return View(cliente);
         }
@@ -155,6 +171,17 @@ namespace VeterinariaNueva.Controllers
         {
             return _context.Clientes.Any(e => e.Id == id);
         }
+
+        private bool ValidarCliente(Cliente cliente)
+        {
+            bool existe = false;
+            var clientes = _context.Clientes.ToList();
+
+            existe = clientes.Any(e => e.Email == cliente.Email);
+
+            return existe;
+        }
+
         [Authorize]
         [AllowAnonymous]
         public ActionResult HistorialCliente ()
@@ -197,6 +224,33 @@ namespace VeterinariaNueva.Controllers
             return RedirectToAction(nameof(HistorialCliente));
         }
 
+        public async Task<IActionResult> DeleteMascota(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var mascota = await _context.Mascotas
+                .FirstOrDefaultAsync(m => m.Id_Mascota == id);
+            if (mascota == null)
+            {
+                return NotFound();
+            }
+
+            return View(mascota);
+        }
+
+        // POST: Clientes/Delete/5
+        [HttpPost, ActionName("DeleteMascota")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmado(int id)
+        {
+            var mascota = await _context.Mascotas.FindAsync(id);
+            _context.Mascotas.Remove(mascota);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index), "Turnos");
+        }
 
 
 
